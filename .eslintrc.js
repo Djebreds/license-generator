@@ -15,11 +15,19 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js'],
+  ignorePatterns: ['.eslintrc.js', '/src/database/migrations/*', '/src/database/seeds/*'],
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    'prefer-const': ['error', { 'destructuring': 'all' }],
+    'max-len': ['warn', {
+      'code': 150,
+      'tabWidth': 2,
+      'ignoreComments': true,
+      'ignoreUrls': true,
+      'ignoreRegExpLiterals': true,
+    }],
   },
 };
