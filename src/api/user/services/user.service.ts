@@ -16,4 +16,13 @@ export class UserService {
 
     return user;
   }
+
+  async updateLastLogin(id: string) {
+    const user = await this.userRepository.getById(id);
+    await this.userRepository.update(id, {
+      lastLogin: new Date(),
+    });
+
+    return user;
+  }
 }

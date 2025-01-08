@@ -50,6 +50,8 @@ export class AuthService {
 
     const token = await this.tokenService.generateToken(tokenPayload);
 
+    await this.userService.updateLastLogin(user.id);
+
     const mapped = await this.mapper.mapAsync(user, User, LoginResponseDTO);
 
     mapped.token = token;
