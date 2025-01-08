@@ -19,7 +19,7 @@ async function bootstrap() {
       detailedErrors: false,
     }),
   );
-  swaggerConfig(app, AppModule.apiVersion);
+  swaggerConfig(app);
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   await app.listen(AppModule.port);
 

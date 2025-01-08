@@ -16,11 +16,10 @@ const web = {
  * @param app {INestApplication} - The NestJS application instance.
  * @param apiVersion {string} - Optional version of the API.
  */
-export function swaggerConfig(app: INestApplication, apiVersion?: string) {
+export function swaggerConfig(app: INestApplication) {
   const webOptions = new DocumentBuilder()
     .setTitle(web.title)
     .setDescription(web.description)
-    .setVersion(apiVersion)
     .addBearerAuth({
       type: 'http',
       scheme: 'bearer',
@@ -36,13 +35,10 @@ export function swaggerConfig(app: INestApplication, apiVersion?: string) {
     process.env.NODE_ENV === 'demo' ||
     process.env.NODE_ENV === 'production'
   ) {
-    app.use([
-      `/api/docs/v${apiVersion}/web`,
-      `/api/docs/v${apiVersion}/web-json`,
-    ]);
+    app.use([`/api/docs/web`, `/api/docs/web-json`]);
   }
 
-  SwaggerModule.setup(`api/docs/v${apiVersion}/web`, app, webDocument);
+  SwaggerModule.setup(`api/docs/web`, app, webDocument);
 }
 
 /**

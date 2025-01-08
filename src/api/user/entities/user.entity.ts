@@ -11,6 +11,7 @@ export class User extends BaseEntity {
   name: string;
 
   @AutoMap()
+  @Column({ type: 'varchar', unique: true })
   username: string;
 
   @AutoMap()
@@ -38,16 +39,3 @@ export class User extends BaseEntity {
   @OneToMany(() => License, (license) => license.user)
   licenses: License[];
 }
-
-// license -> text (unique)
-// hwid -> text (unique)
-// username ->text
-// last login -> datetime
-// game_name -> text
-// ip -> text
-// device_name -> text
-// level - > int
-// day -> int (ex 90) / 90 days
-// expired_date - > datetime
-// created_at -> datetime
-// update_at -> datetime

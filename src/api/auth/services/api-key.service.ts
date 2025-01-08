@@ -5,7 +5,13 @@ import { ApiKeyRepository } from '../repositories/api-key.repository';
 export class ApiKeyService {
   constructor(private readonly apiKeyRepository: ApiKeyRepository) {}
 
-  async findKey(key: string) {
-    const apiKey = await this;
+  async getApiKey(key: string) {
+    const apiKey = await this.apiKeyRepository.findOne({
+      where: {
+        key,
+      },
+    });
+
+    return apiKey;
   }
 }

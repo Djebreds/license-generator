@@ -109,7 +109,7 @@
       "duplicateData": "Data {context} with {field} already exists!"
     }
   },
-  "authentication": {
+  "auth": {
     "errors": {
       "userNotFound": "User not found",
       "errorLogin": "Email or password wrong!",

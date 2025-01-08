@@ -16,6 +16,14 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@config/*": ["src/config/*"],
+      "@common/*": ["src/common/*"],
+      "@api/*": ["src/api/*"],
+      "@auth/*": ["src/api/auth/*"],
+      "@user/*": ["src/api/user/*"],
+      "@license/*": ["src/api/license/*"]
+    }
   }
 }
