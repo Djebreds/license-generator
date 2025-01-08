@@ -15,6 +15,8 @@ import {
 import { join } from 'path';
 import { AutomapperModule } from '@automapper/nestjs';
 import { classes } from '@automapper/classes';
+import { AuthModule } from './api/auth/auth.module';
+import { UserModule } from './api/user/user.module';
 
 @Module({
   imports: [
@@ -37,6 +39,8 @@ import { classes } from '@automapper/classes';
         new HeaderResolver(['x-lang']),
       ],
     }),
+    AuthModule,
+    UserModule,
   ],
   providers: [
     {

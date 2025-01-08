@@ -13,9 +13,9 @@ export const dataSourceOptions: DataSourceOptions & SeederOptions = {
   port: +process.env.DB_PORT,
   host: process.env.DB_HOST,
   entities: [
-    'dist/**/*.entity{.ts,.js}',
-    'dist/**/**/entities/*.entity{.ts,.js}',
-    'dist/**/**/**/entities/*.entity{.ts,.js}',
+    'dist/api/**/*.entity{.ts,.js}',
+    'dist/api/**/**/entities/*.entity{.ts,.js}',
+    'dist/api/**/**/**/entities/*.entity{.ts,.js}',
   ],
   migrations: ['dist/database/migrations/*{.ts,.js}'],
   seeds: ['dist/database/seeds/*{.ts,.js}'],
