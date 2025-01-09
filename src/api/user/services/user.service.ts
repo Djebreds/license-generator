@@ -1,18 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { UserRepository } from '../repositories/user.repository';
-import { useContainer } from 'class-validator';
-import { BadRequestError } from 'passport-headerapikey';
+import { UserCreateDTO } from '../dtos/user.create.dto';
+import { RegisterDTO } from '@api/auth/dtos';
+import { I18nService } from 'nestjs-i18n';
+import { InjectMapper } from '@automapper/nestjs';
+import { Mapper } from '@automapper/core';
+import { User } from '../entities/user.entity';
+import { PasswordService } from '@api/auth/services/password.service';
+import { UserResponseDTO } from '../dtos';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly i18nService: I18nService,
+    private readonly userRepository: UserRepository,
+    @InjectMapper() private readonly mapper: Mapper,
+    private readonly passwordService: PasswordService,
+  ) {}
 
-  async getUserByUsername(username: string) {
-    const user = await this.userRepository.findOne({
-      where: {
-        username,
-      },
-    });
+  async getByUsername(username: string) {
+    const user = await this.userRepository.getByUsername(username);
 
     return user;
   }
@@ -24,5 +31,29 @@ export class UserService {
     });
 
     return user;
+  }
+
+  async createUser(
+    userCreateDTO: UserCreateDTO | RegisterDTO,
+    clientIp: string,
+  ) {
+    const { username } = userCreateDTO;
+
+    const user = await this.getByUsername(username);
+
+    if (user) {
+      throw new ConflictException(
+        this.i18nService.t('general.auth.errors.usernameExists'),
+      );
+    }
+
+    const mapped = await this.mapper.map(userCreateDTO, UserCreateDTO, User);
+
+    mapped.password = await this.passwordService.hashPassword(mapped.password);
+    mapped.ip = clientIp;
+
+    const createdUser = await this.userRepository.save(mapped);
+
+    return this.userRepository.getById(createdUser.id);
   }
 }

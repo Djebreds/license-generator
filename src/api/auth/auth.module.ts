@@ -36,5 +36,6 @@ import { PasswordService } from './services/password.service';
     TokenService,
     PasswordService,
   ],
+  exports: [PasswordService],
 })
 export class AuthModule {}

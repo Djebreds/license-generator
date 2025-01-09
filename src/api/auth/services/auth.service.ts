@@ -6,7 +6,7 @@ import { I18nService } from 'nestjs-i18n';
 import { PasswordService } from './password.service';
 import { InjectMapper } from '@automapper/nestjs';
 import { Mapper } from '@automapper/core';
-import { LoginResponseDTO } from '../dtos';
+import { LoginResponseDTO, RegisterDTO } from '../dtos';
 import { User } from '@api/user/entities/user.entity';
 
 @Injectable()
@@ -22,7 +22,7 @@ export class AuthService {
   async login(loginDTO: LoginDTO) {
     const { username, password } = loginDTO;
 
-    const user = await this.userService.getUserByUsername(username);
+    const user = await this.userService.getByUsername(username);
 
     if (!user) {
       throw new BadRequestException(
@@ -57,5 +57,20 @@ export class AuthService {
     mapped.token = token;
 
     return mapped;
+  }
+
+  async register(registerDTO: RegisterDTO, clientIp: string) {
+    const user = await this.userService.createUser(registerDTO, clientIp);
+
+    const tokenPayload = {
+      id: user.id,
+      name: user.name,
+      username: user.username,
+      ip: user.ip,
+    };
+
+    const token = await this.tokenService.generateToken(tokenPayload);
+
+    return Object.assign(user, { token: token });
   }
 }

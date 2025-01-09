@@ -112,8 +112,8 @@
   "auth": {
     "errors": {
       "userNotFound": "User not found",
-      "errorLogin": "Email or password wrong!",
-      "emailExist": "Email already exist!",
+      "errorLogin": "Username or password wrong!",
+      "usernameExists": "Username already exist!",
       "passwordNotMatch": "Your password does not match!",
       "invalidApiKey": "Invalid API key"
     }

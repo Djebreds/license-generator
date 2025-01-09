@@ -18,6 +18,25 @@ export class UserRepository extends Repository<User> {
         id: true,
         name: true,
         username: true,
+        password: true,
+        ip: true,
+      },
+    });
+
+    return user;
+  }
+
+  async getByUsername(username: string) {
+    const user = await this.findOne({
+      where: {
+        username,
+      },
+      select: {
+        id: true,
+        name: true,
+        username: true,
+        password: true,
+        ip: true,
       },
     });
 

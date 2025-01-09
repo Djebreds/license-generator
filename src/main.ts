@@ -23,7 +23,7 @@ async function bootstrap() {
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   await app.listen(AppModule.port);
 
-  const hosted = `${AppModule.host}:${AppModule.port}`;
+  const hosted = `${AppModule.host}:${AppModule.port}/api/docs/web`;
 
   return hosted;
 }
