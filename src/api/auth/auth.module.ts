@@ -9,14 +9,13 @@ import { AuthMapper } from './mappers/auth.mapper';
 import { ApiKeyRepository } from './repositories/api-key.repository';
 import { AuthService } from './services/auth.service';
 import { PasswordService } from './services/password.service';
+import { JwtStrategy } from './strategies/jwt.strategy';
+import { ApiKeyStrategy } from './strategies/api-key.strategy';
 
 @Global()
 @Module({
   imports: [
-    PassportModule.register({
-      defaultStrategy: ['jwt'],
-      session: true,
-    }),
+    UserModule,
     JwtModule.registerAsync({
       useFactory: () => ({
         secret: process.env.JWT_SECRET,
@@ -25,7 +24,10 @@ import { PasswordService } from './services/password.service';
         },
       }),
     }),
-    UserModule,
+    PassportModule.register({
+      defaultStrategy: ['jwt'],
+      session: true,
+    }),
   ],
   controllers: [AuthController],
   providers: [
@@ -35,7 +37,18 @@ import { PasswordService } from './services/password.service';
     ApiKeyRepository,
     TokenService,
     PasswordService,
+    JwtStrategy,
+    ApiKeyStrategy,
   ],
-  exports: [PasswordService],
+  exports: [
+    JwtModule,
+    PassportModule,
+    TokenService,
+    PasswordService,
+    ApiKeyService,
+    AuthService,
+    JwtStrategy,
+    ApiKeyStrategy,
+  ],
 })
 export class AuthModule {}

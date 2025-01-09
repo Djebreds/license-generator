@@ -8,6 +8,7 @@ import { Mapper } from '@automapper/core';
 import { User } from '../entities/user.entity';
 import { PasswordService } from '@api/auth/services/password.service';
 import { UserResponseDTO } from '../dtos';
+import { PaginateQuery } from 'nestjs-paginate';
 
 @Injectable()
 export class UserService {
@@ -17,6 +18,22 @@ export class UserService {
     @InjectMapper() private readonly mapper: Mapper,
     private readonly passwordService: PasswordService,
   ) {}
+
+  async getAllPaginated(query: PaginateQuery) {
+    const users = await this.userRepository.getAllPaginated(query);
+
+    const mapped = await this.mapper.mapArrayAsync(
+      users.data,
+      User,
+      UserResponseDTO,
+    );
+
+    return {
+      items: mapped,
+      meta: users.meta,
+      links: users.links,
+    };
+  }
 
   async getByUsername(username: string) {
     const user = await this.userRepository.getByUsername(username);
